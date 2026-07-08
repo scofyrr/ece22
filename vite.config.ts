@@ -17,7 +17,7 @@ export default defineConfig({
 
   vite: {
     preview: {
-      allowedHosts: [
+      edHosts: [
         "ece22.onrender.com",
       ],
     },
