@@ -1,0 +1,183 @@
+import { f as u, r as l, s as c, j as e } from "./index-C-CdgMgA.js";
+import { N as i, T as f } from "./Navbar-BTC3bKq4.js";
+import { P as j } from "./PostCard-8jU_9RG_.js";
+import { S as N } from "./sparkles-CP5ZMhoC.js";
+import { B as g } from "./book-open-CuNFelkm.js";
+import "./auth-DVW7ohY8.js";
+import "./createLucideIcon-Eusou0P7.js";
+import "./heart-Dl4SltYn.js";
+function E() {
+  const { dni: o } = u.useParams(),
+    [s, d] = l.useState(null),
+    [r, m] = l.useState([]),
+    [x, p] = l.useState(!0);
+  if (
+    (l.useEffect(() => {
+      (async () => {
+        const { data: t } = await c
+          .from("profiles")
+          .select("*")
+          .eq("dni", o)
+          .maybeSingle();
+        if ((d(t), t)) {
+          const { data: h } = await c
+            .from("posts")
+            .select(
+              `id, title, content, cover_image_url, created_at,
+            author:profiles!posts_author_profile_fkey(dni, full_name, level),
+            category:categories(name, emoji, slug),
+            likes(count), comments(count)`,
+            )
+            .eq("author_id", t.id)
+            .order("created_at", { ascending: !1 });
+          m(
+            (h ?? []).map((a) => ({
+              id: a.id,
+              title: a.title,
+              content: a.content,
+              cover_image_url: a.cover_image_url,
+              created_at: a.created_at,
+              author: a.author,
+              category: a.category,
+              likes_count: a.likes?.[0]?.count ?? 0,
+              comments_count: a.comments?.[0]?.count ?? 0,
+            })),
+          );
+        }
+        p(!1);
+      })();
+    }, [o]),
+    x)
+  )
+    return e.jsxs("div", {
+      children: [
+        e.jsx(i, {}),
+        e.jsx("div", {
+          className: "mx-auto max-w-4xl p-8",
+          children: e.jsx("div", { className: "neo-card h-48 animate-pulse" }),
+        }),
+      ],
+    });
+  if (!s)
+    return e.jsxs("div", {
+      children: [
+        e.jsx(i, {}),
+        e.jsx("div", {
+          className: "mx-auto max-w-4xl p-8",
+          children: e.jsx("p", { children: "Usuario no encontrado." }),
+        }),
+      ],
+    });
+  s.level * 100;
+  const n = Math.min(100, s.points % 100);
+  return e.jsxs("div", {
+    className: "min-h-screen",
+    children: [
+      e.jsx(i, {}),
+      e.jsxs("main", {
+        className: "mx-auto max-w-4xl px-4 py-8",
+        children: [
+          e.jsxs("div", {
+            className: "neo-card p-6 md:p-8",
+            children: [
+              e.jsxs("div", {
+                className:
+                  "flex flex-col items-start gap-5 md:flex-row md:items-center",
+                children: [
+                  e.jsx("div", {
+                    className:
+                      "flex h-24 w-24 items-center justify-center rounded-2xl border-2 border-ink bg-coral text-4xl font-extrabold text-white shadow-[6px_6px_0_0_var(--ink)]",
+                    children: s.full_name.charAt(0).toUpperCase(),
+                  }),
+                  e.jsxs("div", {
+                    className: "flex-1",
+                    children: [
+                      e.jsx("h1", {
+                        className:
+                          "font-display text-3xl font-extrabold md:text-4xl",
+                        children: s.full_name,
+                      }),
+                      e.jsxs("p", {
+                        className: "text-muted-foreground",
+                        children: [s.grade, " · DNI ", s.dni],
+                      }),
+                      s.bio &&
+                        e.jsx("p", { className: "mt-2", children: s.bio }),
+                      e.jsxs("div", {
+                        className: "mt-3 flex flex-wrap gap-2",
+                        children: [
+                          e.jsxs("span", {
+                            className: "chip bg-lemon",
+                            children: [
+                              e.jsx(f, { className: "h-3.5 w-3.5" }),
+                              " Nivel ",
+                              s.level,
+                            ],
+                          }),
+                          e.jsxs("span", {
+                            className: "chip bg-mint",
+                            children: [
+                              e.jsx(N, { className: "h-3.5 w-3.5" }),
+                              " ",
+                              s.points,
+                              " pts",
+                            ],
+                          }),
+                          e.jsxs("span", {
+                            className: "chip bg-sky",
+                            children: [
+                              e.jsx(g, { className: "h-3.5 w-3.5" }),
+                              " ",
+                              r.length,
+                              " publicaciones",
+                            ],
+                          }),
+                        ],
+                      }),
+                    ],
+                  }),
+                ],
+              }),
+              e.jsxs("div", {
+                className: "mt-6",
+                children: [
+                  e.jsxs("div", {
+                    className: "mb-1 flex justify-between text-xs font-bold",
+                    children: [
+                      e.jsxs("span", { children: ["Nivel ", s.level] }),
+                      e.jsxs("span", {
+                        children: [n, "/100 → Nivel ", s.level + 1],
+                      }),
+                    ],
+                  }),
+                  e.jsx("div", {
+                    className:
+                      "h-3 w-full overflow-hidden rounded-full border-2 border-ink bg-card",
+                    children: e.jsx("div", {
+                      className: "h-full bg-primary",
+                      style: { width: `${n}%` },
+                    }),
+                  }),
+                ],
+              }),
+            ],
+          }),
+          e.jsx("h2", {
+            className: "mt-8 font-display text-2xl font-extrabold",
+            children: "Publicaciones",
+          }),
+          r.length === 0
+            ? e.jsx("p", {
+                className: "mt-3 text-muted-foreground",
+                children: "Aún no ha publicado nada.",
+              })
+            : e.jsx("div", {
+                className: "mt-4 grid gap-6 md:grid-cols-2",
+                children: r.map((t) => e.jsx(j, { post: t }, t.id)),
+              }),
+        ],
+      }),
+    ],
+  });
+}
+export { E as component };

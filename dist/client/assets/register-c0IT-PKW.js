@@ -1,0 +1,184 @@
+import { r, u as v, j as e, L as x, t as d } from "./index-C-CdgMgA.js";
+import { s as S } from "./auth-DVW7ohY8.js";
+import { S as w } from "./sparkles-CP5ZMhoC.js";
+import { o as E, s as t } from "./types-KBJzO2d1.js";
+import "./createLucideIcon-Eusou0P7.js";
+const k = E({
+    dni: t().regex(/^\d{8}$/, "El DNI debe tener exactamente 8 dígitos"),
+    full_name: t().trim().min(2, "Nombre muy corto").max(80),
+    grade: t().trim().min(1, "Indica tu grado"),
+    password: t().min(6, "Mínimo 6 caracteres").max(72),
+  }),
+  g = [
+    "Primaria",
+    "1° Secundaria",
+    "2° Secundaria",
+    "3° Secundaria",
+    "4° Secundaria",
+    "5° Secundaria",
+    "Universidad",
+    "Otro",
+  ];
+function R() {
+  const [n, p] = r.useState(""),
+    [o, f] = r.useState(""),
+    [l, b] = r.useState(g[3]),
+    [i, h] = r.useState(""),
+    [c, m] = r.useState(!1),
+    j = v(),
+    N = async (s) => {
+      s.preventDefault();
+      const u = k.safeParse({ dni: n, full_name: o, grade: l, password: i });
+      if (!u.success) {
+        d.error(u.error.errors[0].message);
+        return;
+      }
+      m(!0);
+      const { error: a } = await S({
+        dni: n,
+        password: i,
+        full_name: o,
+        grade: l,
+      });
+      if ((m(!1), a)) {
+        const y = a.message.includes("already")
+          ? "Este DNI ya está registrado"
+          : a.message.includes("rate limit")
+            ? "Demasiados intentos seguidos. Espera un momento y vuelve a intentar."
+            : a.message.includes("invalid")
+              ? "No se pudo crear la cuenta. Revisa que el DNI tenga 8 dígitos."
+              : a.message;
+        d.error(y);
+        return;
+      }
+      (d.success("¡Cuenta creada! Bienvenido a ECE 🎉"), j({ to: "/feed" }));
+    };
+  return e.jsx("div", {
+    className: "flex min-h-screen items-center justify-center px-4 py-10",
+    children: e.jsxs("div", {
+      className: "neo-card w-full max-w-md p-8",
+      children: [
+        e.jsxs(x, {
+          to: "/",
+          className: "mb-6 flex items-center gap-2",
+          children: [
+            e.jsx("div", {
+              className:
+                "flex h-9 w-9 items-center justify-center rounded-lg border-2 border-ink bg-primary text-primary-foreground",
+              children: e.jsx(w, { className: "h-5 w-5" }),
+            }),
+            e.jsx("span", {
+              className: "font-display text-xl font-extrabold",
+              children: "ECE",
+            }),
+          ],
+        }),
+        e.jsx("h1", {
+          className: "font-display text-3xl font-extrabold",
+          children: "Crear cuenta",
+        }),
+        e.jsx("p", {
+          className: "mt-1 text-sm text-muted-foreground",
+          children: "Solo necesitas tu DNI.",
+        }),
+        e.jsxs("form", {
+          onSubmit: N,
+          className: "mt-6 space-y-4",
+          children: [
+            e.jsxs("div", {
+              children: [
+                e.jsxs("label", {
+                  className: "mb-1 block text-sm font-bold",
+                  children: [
+                    "DNI ",
+                    e.jsx("span", {
+                      className: "text-muted-foreground",
+                      children: "(8 dígitos)",
+                    }),
+                  ],
+                }),
+                e.jsx("input", {
+                  inputMode: "numeric",
+                  maxLength: 8,
+                  value: n,
+                  onChange: (s) => p(s.target.value.replace(/\D/g, "")),
+                  placeholder: "12345678",
+                  className:
+                    "w-full rounded-lg border-2 border-ink bg-card px-4 py-3 font-mono text-lg outline-none focus:ring-2 focus:ring-primary",
+                }),
+              ],
+            }),
+            e.jsxs("div", {
+              children: [
+                e.jsx("label", {
+                  className: "mb-1 block text-sm font-bold",
+                  children: "Nombre completo",
+                }),
+                e.jsx("input", {
+                  value: o,
+                  onChange: (s) => f(s.target.value),
+                  placeholder: "Ej. Ana Pérez",
+                  maxLength: 80,
+                  className:
+                    "w-full rounded-lg border-2 border-ink bg-card px-4 py-3 outline-none focus:ring-2 focus:ring-primary",
+                }),
+              ],
+            }),
+            e.jsxs("div", {
+              children: [
+                e.jsx("label", {
+                  className: "mb-1 block text-sm font-bold",
+                  children: "Grado / nivel",
+                }),
+                e.jsx("select", {
+                  value: l,
+                  onChange: (s) => b(s.target.value),
+                  className:
+                    "w-full rounded-lg border-2 border-ink bg-card px-4 py-3 outline-none focus:ring-2 focus:ring-primary",
+                  children: g.map((s) =>
+                    e.jsx("option", { value: s, children: s }, s),
+                  ),
+                }),
+              ],
+            }),
+            e.jsxs("div", {
+              children: [
+                e.jsx("label", {
+                  className: "mb-1 block text-sm font-bold",
+                  children: "Contraseña",
+                }),
+                e.jsx("input", {
+                  type: "password",
+                  value: i,
+                  onChange: (s) => h(s.target.value),
+                  minLength: 6,
+                  className:
+                    "w-full rounded-lg border-2 border-ink bg-card px-4 py-3 outline-none focus:ring-2 focus:ring-primary",
+                }),
+              ],
+            }),
+            e.jsx("button", {
+              disabled: c,
+              className:
+                "neo-btn w-full rounded-lg bg-primary py-3 font-bold text-primary-foreground disabled:opacity-50",
+              children: c ? "Creando..." : "Crear cuenta",
+            }),
+          ],
+        }),
+        e.jsxs("p", {
+          className: "mt-4 text-center text-sm",
+          children: [
+            "¿Ya tienes cuenta?",
+            " ",
+            e.jsx(x, {
+              to: "/login",
+              className: "font-bold text-primary underline",
+              children: "Entrar",
+            }),
+          ],
+        }),
+      ],
+    }),
+  });
+}
+export { R as component };
